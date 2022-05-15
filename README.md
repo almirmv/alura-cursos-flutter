@@ -1,6 +1,6 @@
 # alura-cursos-flutter
-Alura cursos Flutter
-Este repositório guarda os aplitacitos feitos em Flutter dos cursos da Alura:
+Cursos Flutter da plataforma de cursos Alura
+Este repositório guarda os aplicativos feitos por mim em Flutter, baseado nos cursos da Alura:
 
 1 Fundamentos de Flutter
   
