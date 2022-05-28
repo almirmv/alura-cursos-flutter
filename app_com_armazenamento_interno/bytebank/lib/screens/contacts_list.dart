@@ -15,9 +15,10 @@ class ContactsList extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Contacts'),
       ),
-      //indicando que o future vai receber uma <list<Contact>>
+      //indicando que o future vai receber uma <list<Contact>> (generics)
       body: FutureBuilder<List<Contact>>(
-        future: findAll(), //faz busca dos contacts
+        future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
+        //future: findAll(), //faz busca dos contacts
         builder: (context, snapshot) {
           //checagem para evitar "null exception"
           if (snapshot.hasData) {
