@@ -11,17 +11,14 @@ class ContactsList extends StatefulWidget {
 }
 
 class _ContactsListState extends State<ContactsList> {
-  //final List<Contact> contacts = List.empty(growable: true);
   @override
   Widget build(BuildContext context) {
-    //contacts.add(Contact(0, 'Alex', 1000)); //testar interface...
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contacts'),
       ),
       //indicando que o future vai receber uma <list<Contact>> (generics)
       body: FutureBuilder<List<Contact>>(
-        //future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
         future: findAll(), //faz busca dos contacts
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
