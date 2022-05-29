@@ -8,7 +8,7 @@ Crie seu primeiro app (bytebank) 05/2022
 
 2 Persistência de dados
 
-Persistencia com o Flutter: Crie um app com armazenamento interno
+Persistencia com o Flutter: Crie um app com armazenamento interno 05/2022
 
 3 Integração com Web API
 
