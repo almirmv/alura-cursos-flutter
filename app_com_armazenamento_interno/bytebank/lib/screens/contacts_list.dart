@@ -3,11 +3,15 @@ import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/contact_form.dart';
 import 'package:flutter/material.dart';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends StatefulWidget {
   const ContactsList({Key? key}) : super(key: key);
 
-  //final List<Contact> contacts = List.empty(growable: true);
+  @override
+  State<ContactsList> createState() => _ContactsListState();
+}
 
+class _ContactsListState extends State<ContactsList> {
+  //final List<Contact> contacts = List.empty(growable: true);
   @override
   Widget build(BuildContext context) {
     //contacts.add(Contact(0, 'Alex', 1000)); //testar interface...
@@ -65,7 +69,9 @@ class ContactsList extends StatelessWidget {
                   builder: (context) => ContactForm(),
                 ),
               )
-              .then((newContact) => debugPrint(newContact.toString()));
+              .then(
+                (value) => setState(() {}),
+              );
         },
         child: const Icon(Icons.add),
       ),
