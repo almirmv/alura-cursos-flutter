@@ -17,21 +17,44 @@ class ContactsList extends StatelessWidget {
       ),
       //indicando que o future vai receber uma <list<Contact>> (generics)
       body: FutureBuilder<List<Contact>>(
-        future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
-        //future: findAll(), //faz busca dos contacts
+        //future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
+        future: findAll(), //faz busca dos contacts
         builder: (context, snapshot) {
-          //checagem para evitar "null exception"
-          if (snapshot.hasData) {
-            final contacts = snapshot.data!;
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                final Contact contact = contacts[index];
-                return _ContactItem(contact);
-              },
-              itemCount: contacts.length,
-            );
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(),
+                    Text('Loading...'),
+                  ],
+                ),
+              );
+              break;
+            case ConnectionState.active:
+              //Ainda fazendo loading mas ja temos dados...
+              break;
+            case ConnectionState.done:
+              //checagem para evitar "null exception"
+              if (snapshot.hasData) {
+                final contacts = snapshot.data!;
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final Contact contact = contacts[index];
+                    return _ContactItem(contact);
+                  },
+                  itemCount: contacts.length,
+                );
+              }
+              return const Text('No contacts...');
+              break;
           }
-          return const Text('No contacts...');
+          //mesmo que nunca chegue aqui o dart exige um retorno...
+          return const Text('Unknown Error');
         },
       ),
       floatingActionButton: FloatingActionButton(
