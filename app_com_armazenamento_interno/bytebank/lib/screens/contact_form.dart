@@ -1,4 +1,4 @@
-import 'package:bytebank/database/app_database.dart';
+import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +14,7 @@ class _ContactFormState extends State<ContactForm> {
 
   final TextEditingController _accountNumberController =
       TextEditingController();
+  final ContactDao _dao = ContactDao();
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +30,14 @@ class _ContactFormState extends State<ContactForm> {
               padding: const EdgeInsets.only(top: 8.0),
               child: TextField(
                 controller: _nameCotroller,
-                decoration: InputDecoration(labelText: 'Full Name'),
-                style: TextStyle(fontSize: 24.0),
+                decoration: const InputDecoration(labelText: 'Full Name'),
+                style: const TextStyle(fontSize: 24.0),
               ),
             ),
             TextField(
               controller: _accountNumberController,
-              decoration: InputDecoration(labelText: 'Account Number'),
-              style: TextStyle(fontSize: 24.0),
+              decoration: const InputDecoration(labelText: 'Account Number'),
+              style: const TextStyle(fontSize: 24.0),
               keyboardType: TextInputType.number,
             ),
             Padding(
@@ -59,7 +60,7 @@ class _ContactFormState extends State<ContactForm> {
     //checagem para evitar "null exception"
     if (name != '' && accountNumber != null) {
       final Contact newContact = Contact(0, name, accountNumber);
-      save(newContact).then((id) => Navigator.pop(context));
+      _dao.save(newContact).then((id) => Navigator.pop(context));
     }
   }
 }

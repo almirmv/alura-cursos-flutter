@@ -7,7 +7,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dashboard')),
+      appBar: AppBar(title: const Text('Dashboard')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,18 +24,18 @@ class Dashboard extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ContactsList(),
+                      builder: (context) => const ContactsList(),
                     ),
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   height: 100,
                   width: 150,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.people,
                         color: Colors.white,
