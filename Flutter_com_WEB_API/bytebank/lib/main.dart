@@ -1,7 +1,9 @@
-import 'package:bytebank/screens/transferencias/lista.dart';
+import 'package:bytebank/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const BytebankApp());
+void main() {
+  runApp(const BytebankApp());
+}
 
 class BytebankApp extends StatelessWidget {
   const BytebankApp({Key? key}) : super(key: key);
@@ -10,10 +12,10 @@ class BytebankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(
-          //primarySwatch não aceita Colors.green[900]. Somente Colors.green.
-          primarySwatch: Colors.green,
-        ).copyWith(
+        primaryColor: Colors.green[900],
+        appBarTheme: AppBarTheme(color: Colors.green[900]),
+        //primarySwatch não aceita Colors.green[900]. Somente Colors.green
+        colorScheme: ColorScheme.fromSwatch().copyWith(
           secondary: Colors.blueAccent[700],
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -24,7 +26,7 @@ class BytebankApp extends StatelessWidget {
             buttonColor: Colors.blueAccent[700],
             textTheme: ButtonTextTheme.normal),
       ),
-      home: ListaTransferencias(),
+      home: const Dashboard(),
     );
   }
 }
