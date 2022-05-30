@@ -16,7 +16,7 @@ class _ContactsListState extends State<ContactsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Contacts'),
+        title: const Text('Transfer'),
       ),
       //indicando que o future vai receber uma <list<Contact>> (generics)
       body: FutureBuilder<List<Contact>>(
