@@ -8,10 +8,11 @@ class CenteredMessage extends StatelessWidget {
 
   CenteredMessage(
     this.message, {
+    Key? key,
     this.icon,
     this.iconSize = 64,
     this.fontSize = 24,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
