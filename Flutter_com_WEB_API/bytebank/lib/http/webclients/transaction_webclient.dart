@@ -17,7 +17,11 @@ class TransactionWebClient {
     );
 
     if (response.statusCode == 200) {
-      return _toTransactions(response);
+      final List<dynamic> decodedJson = jsonDecode(response.body);
+      //para cada jsonItem do decodedJson cria uma Transation e transforma em lista
+      return decodedJson
+          .map((dynamic jsonItem) => Transaction.fromJson(jsonItem))
+          .toList();
     }
     throw ("Connection error: findAll()"); // error thrown
   }
@@ -41,24 +45,8 @@ class TransactionWebClient {
       },
     );
     if (response.statusCode == 200) {
-      return _toTransaction(response);
+      return Transaction.fromJson(jsonDecode(response.body));
     }
     throw ("Connection error: save()"); // error thrown
-  }
-
-  List<Transaction> _toTransactions(http.Response response) {
-    final List<Transaction> transactions = List.empty(growable: true);
-    final List<dynamic> decodedJson = jsonDecode(response.body);
-
-    for (Map<String, dynamic> transactionJson in decodedJson) {
-      transactions.add(Transaction.fromJson(transactionJson));
-    }
-    return transactions;
-  }
-
-  //http response to transaction
-  Transaction _toTransaction(http.Response response) {
-    Map<String, dynamic> json = jsonDecode(response.body);
-    return Transaction.fromJson(json);
   }
 }
