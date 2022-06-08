@@ -27,7 +27,7 @@ class BytebankApp extends StatelessWidget {
             buttonColor: Colors.blueAccent[700],
             textTheme: ButtonTextTheme.normal),
       ),
-      home: const TransactionAuthDialog(),
+      home: const Dashboard(),
     );
   }
 }

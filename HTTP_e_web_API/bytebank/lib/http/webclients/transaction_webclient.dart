@@ -27,14 +27,14 @@ class TransactionWebClient {
   }
 
   //Salvando uma transaction via WEB API
-  Future<Transaction> save(Transaction transaction) async {
+  Future<Transaction> save(Transaction transaction, String password) async {
     final String transactionJson = jsonEncode(transaction.toJson());
 
     final http.Response response = await client
         .post(Uri.parse('$baseUrl/transactions'),
             headers: {
               'content-type': 'application/json',
-              'password': '1000',
+              'password': password,
             },
             body: transactionJson)
         .timeout(
