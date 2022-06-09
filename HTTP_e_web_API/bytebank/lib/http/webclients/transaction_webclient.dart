@@ -44,6 +44,7 @@ class TransactionWebClient {
             'Error', 408); // Request Timeout response status code
       },
     );
+
     if (response.statusCode == 200) {
       return Transaction.fromJson(jsonDecode(response.body));
     }
