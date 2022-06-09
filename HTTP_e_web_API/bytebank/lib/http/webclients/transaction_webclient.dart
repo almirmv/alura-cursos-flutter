@@ -47,6 +47,9 @@ class TransactionWebClient {
     if (response.statusCode == 200) {
       return Transaction.fromJson(jsonDecode(response.body));
     }
-    throw ("Connection error: save()"); // error thrown
+    if (response.statusCode == 401) {
+      throw ("authentication failed on save()");
+    }
+    throw ("Connection error on save()");
   }
 }
