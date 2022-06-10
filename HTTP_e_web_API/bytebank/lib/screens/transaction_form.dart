@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bytebank/components/progress.dart';
@@ -104,12 +105,17 @@ class _TransactionFormState extends State<TransactionForm> {
           builder: (contextDialog) {
             return SuccessDialog('transaction done');
           }).then((value) => Navigator.pop(context));
-    } on Exception catch (err) {
-      //if (!mounted) return;
+    } on TimeoutException catch (error) {
       showDialog(
           context: context,
           builder: (contextDialog) {
-            return FailureDialog(err.toString());
+            return FailureDialog('timeout submiting transaction');
+          });
+    } on Exception catch (error) {
+      showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog(error.toString());
           });
     }
   }

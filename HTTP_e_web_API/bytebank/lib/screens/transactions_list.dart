@@ -16,7 +16,7 @@ class TransactionsList extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Transactions'),
       ),
-      body: FutureBuilder<List<Transaction>>(
+      body: FutureBuilder<List<Transaction>?>(
         //future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
         future: _webClient.findAll(),
         builder: (context, snapshot) {
