@@ -31,7 +31,7 @@ class TransactionWebClient {
     final String transactionJson = jsonEncode(transaction.toJson());
 
     final http.Response response = await client
-        .post(Uri.parse('$baseUrl/transaction'),
+        .post(Uri.parse('$baseUrl/transactions'),
             headers: {
               'content-type': 'application/json',
               'password': password,
