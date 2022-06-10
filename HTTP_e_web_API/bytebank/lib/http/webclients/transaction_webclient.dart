@@ -31,7 +31,7 @@ class TransactionWebClient {
     final String transactionJson = jsonEncode(transaction.toJson());
 
     final http.Response response = await client
-        .post(Uri.parse('$baseUrl/transactions'),
+        .post(Uri.parse('$baseUrl/transaction'),
             headers: {
               'content-type': 'application/json',
               'password': password,
@@ -48,9 +48,14 @@ class TransactionWebClient {
     if (response.statusCode == 200) {
       return Transaction.fromJson(jsonDecode(response.body));
     }
-    if (response.statusCode == 401) {
-      throw ("authentication failed on save()");
-    }
-    throw ("Connection error on save()");
+    //ohh nooo...
+    throw Exception(_statusCodeResponses[response.statusCode]);
   }
+
+  static final Map<int, String> _statusCodeResponses = {
+    400: 'there was an error submitting transaction',
+    401: 'authentication failed',
+    404: 'resource not found on webserver',
+    408: 'timeout, request failed',
+  };
 }

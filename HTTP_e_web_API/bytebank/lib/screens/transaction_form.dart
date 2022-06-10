@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bytebank/components/progress.dart';
 import 'package:bytebank/components/response_dialog.dart';
 import 'package:bytebank/components/transaction_auth_dialog.dart';
 import 'package:bytebank/http/webclients/transaction_webclient.dart';
@@ -89,27 +92,25 @@ class _TransactionFormState extends State<TransactionForm> {
     );
   }
 
-  void _save(
-      Transaction transactionCreated, String password, BuildContext context) {
-    _webClient.save(transactionCreated, password).then((transactionReceived) {
-      if (transactionReceived != null) {
-        showDialog(
-                context: context,
-                builder: (contextDialog) {
-                  return SuccessDialog('Transaction Done!');
-                })
-            .then((value) =>
-                Navigator.pop(context)); //ao sair do dialog volta a tela
-      }
-    }).catchError(
-      (e) {
-        print('[ERROR] $e');
-        showDialog(
-            context: context,
-            builder: (contextDialog) {
-              return FailureDialog(e);
-            });
-      },
-    );
+  Future<void> _save(
+    Transaction transactionCreated,
+    String password,
+    BuildContext context,
+  ) async {
+    try {
+      await _webClient.save(transactionCreated, password);
+      showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return SuccessDialog('transaction done');
+          }).then((value) => Navigator.pop(context));
+    } on Exception catch (err) {
+      //if (!mounted) return;
+      showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog(err.toString());
+          });
+    }
   }
 }
