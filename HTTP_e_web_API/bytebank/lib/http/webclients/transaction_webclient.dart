@@ -28,7 +28,7 @@ class TransactionWebClient {
     final String transactionJson = jsonEncode(transaction.toJson());
 
     //add delay to test duplicated transfers
-    await Future.delayed(const Duration(seconds: 10));
+    //await Future.delayed(const Duration(seconds: 10));
 
     final http.Response response =
         await client.post(Uri.parse('$baseUrl/transactions'),
