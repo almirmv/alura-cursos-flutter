@@ -1,3 +1,4 @@
+import 'package:bytebank/screens/transferencia/dashboard.dart';
 import 'package:bytebank/screens/transferencia/lista.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class BytebankApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: Colors.blueAccent[700]),
       ),
-      home: ListaTransferencias(),
+      home: Dashboard(),
     );
   }
 }
