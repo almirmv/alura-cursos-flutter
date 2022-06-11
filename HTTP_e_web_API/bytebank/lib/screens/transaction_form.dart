@@ -37,6 +37,15 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Visibility(
+                visible: false,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Progress(
+                    message: 'Sending...',
+                  ),
+                ),
+              ),
               Text(
                 widget.contact.name,
                 style: const TextStyle(
