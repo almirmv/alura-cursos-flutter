@@ -20,9 +20,10 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final String transactionId = const Uuid().v4();
   final TextEditingController _valueController = TextEditingController();
   final TransactionWebClient _webClient = TransactionWebClient();
+  final String transactionId = const Uuid().v4();
+  bool _sending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class _TransactionFormState extends State<TransactionForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Visibility(
-                visible: false,
+                visible: _sending,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Progress(
@@ -111,19 +112,24 @@ class _TransactionFormState extends State<TransactionForm> {
     BuildContext context,
   ) async {
     try {
+      setState(() => _sending = true);
+
       await _webClient.save(transactionCreated, password);
+      setState(() => _sending = false);
       showDialog(
           context: context,
           builder: (contextDialog) {
             return SuccessDialog('transaction done');
           }).then((value) => Navigator.pop(context));
     } on TimeoutException catch (error) {
+      setState(() => _sending = false);
       showDialog(
           context: context,
           builder: (contextDialog) {
             return FailureDialog('timeout submiting transaction');
           });
     } on Exception catch (error) {
+      setState(() => _sending = false);
       showDialog(
           context: context,
           builder: (contextDialog) {
