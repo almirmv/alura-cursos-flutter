@@ -53,5 +53,6 @@ class TransactionWebClient {
     401: 'authentication failed',
     404: 'resource not found on webserver',
     408: 'timeout, request failed',
+    409: 'transaction already exists'
   };
 }
