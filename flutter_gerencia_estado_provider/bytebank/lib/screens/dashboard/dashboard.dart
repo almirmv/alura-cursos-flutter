@@ -1,4 +1,3 @@
-import 'package:bytebank/models/saldo.dart';
 import 'package:bytebank/screens/dashboard/saldoCard.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +10,7 @@ class Dashboard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ByteBank'),
       ),
-      body:
-          Align(alignment: Alignment.topCenter, child: SaldoCard(Saldo(30.0))),
+      body: Align(alignment: Alignment.topCenter, child: SaldoCard()),
     );
   }
 }
