@@ -1,7 +1,6 @@
-import 'package:bytebank/components/saldo.dart';
+import 'package:bytebank/models/saldo.dart';
+import 'package:bytebank/screens/dashboard/saldoCard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -12,7 +11,8 @@ class Dashboard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ByteBank'),
       ),
-      body: Align(alignment: Alignment.topCenter, child: Saldo()),
+      body:
+          Align(alignment: Alignment.topCenter, child: SaldoCard(Saldo(30.0))),
     );
   }
 }
