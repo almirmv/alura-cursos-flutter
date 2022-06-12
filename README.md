@@ -4,23 +4,23 @@ Este repositório guarda os aplicativos feitos por mim em Flutter, baseado nos c
 
 1 Fundamentos de Flutter
   
-Crie seu primeiro app (bytebank) 05/2022
+>>Crie seu primeiro app (bytebank) 05/2022
 
 2 Persistência de dados
 
-Persistencia com o Flutter: Crie um app com armazenamento interno 05/2022
+>>Persistencia com o Flutter: Crie um app com armazenamento interno 05/2022
 
 3 Integração com Web API
 
-Fluter com WEB API: Integrando sua app mobile
+>>Fluter com WEB API: Integrando sua app mobile 06/2022
 
-Flutter: Entendendo comunicação HTTP e utilizando Web API
+>>Flutter: Entendendo comunicação HTTP e utilizando Web API 06/2022
 
-Flutter: Firebase Crashlytics, gere relatorias de erro em tempo real
+>>Flutter: Firebase Crashlytics, gere relatorias de erro em tempo real
 
 4 Gerenciamento de Estados e Internacionalização
 
-Flutter: gerenciamento de estados com o Provider
+>>Flutter: gerenciamento de estados com o Provider 06/2022
 
 5 Testes automatizados
 
