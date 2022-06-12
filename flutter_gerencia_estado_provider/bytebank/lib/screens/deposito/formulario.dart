@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:bytebank/components/editor.dart';
+import 'package:bytebank/models/saldo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class FormularioDeposito extends StatelessWidget {
   final String _tituloAppBar = 'Receber Depósito';
@@ -33,7 +37,21 @@ class FormularioDeposito extends StatelessWidget {
     );
   }
 
-  _criaDeposito(BuildContext context) {
-    Navigator.pop(context);
+  void _criaDeposito(BuildContext context) {
+    final double? valor = double.tryParse(_controladorCampoValor.text);
+    final bool depositoValido = _validaDeposito(valor);
+    if (depositoValido) {
+      _atualizaEstado(context, valor);
+      Navigator.pop(context);
+    }
+  }
+
+  _validaDeposito(valor) {
+    final campoPreechido = valor != null;
+    return campoPreechido;
+  }
+
+  _atualizaEstado(context, valor) {
+    Provider.of<Saldo>(context, listen: false).adiciona(valor);
   }
 }

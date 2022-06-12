@@ -16,16 +16,14 @@ class Dashboard extends StatelessWidget {
       body: ListView(
         children: [
           Align(alignment: Alignment.topCenter, child: SaldoCard()),
-          Consumer<Saldo>(builder: (context, saldo, child) {
-            return ElevatedButton(
-              child: const Text('Receber Depósito'),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return FormularioDeposito();
-                }));
-              },
-            );
-          }),
+          ElevatedButton(
+            child: const Text('Receber Depósito'),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return FormularioDeposito();
+              }));
+            },
+          ),
         ],
       ),
     );
