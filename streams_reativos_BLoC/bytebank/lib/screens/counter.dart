@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//O Cubit é aquele que mantém a informação e a entrega ao Container por meio de
+// um Provider, e a View ouve o Container para alterar a informação visual!
+
+//exemplo de contador utilizando Bloc
+//em duas variações
+
 class CounterCubit extends Cubit<int> {
   CounterCubit() : super(0); //metoso construtor inicializa state com 0
   void increment() => emit(state + 1);
@@ -23,7 +29,7 @@ class CounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text("Nosso Contador")),
+      appBar: AppBar(title: const Text("Counter")),
       body: Center(
         //é notificado quando tiver que fazer um rebuild
         child: BlocBuilder<CounterCubit, int>(builder: (context, state) {
