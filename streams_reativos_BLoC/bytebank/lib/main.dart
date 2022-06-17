@@ -38,7 +38,7 @@ class BytebankApp extends StatelessWidget {
 
     return MaterialApp(
       theme: bytebankTheme,
-      home: const NameContainer(),
+      home: const DashboardContainer(),
     );
   }
 }
