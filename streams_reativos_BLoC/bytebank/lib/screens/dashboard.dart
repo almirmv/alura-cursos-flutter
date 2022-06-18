@@ -23,7 +23,12 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     final String name = context.read<NameCubit>().state;
     return Scaffold(
-      appBar: AppBar(title: Text('Welcome $name')),
+      appBar: AppBar(
+        //misturando um BlocBuilder (que é um obserder de eventos) com UI
+        title: BlocBuilder<NameCubit, String>(
+          builder: (context, state) => Text('Welcome $state'),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,27 +37,29 @@ class DashboardView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Image.asset('images/bytebank_logo.png'),
           ),
-          Container(
-            height: 120,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                _FeatureItem(
-                  'Transfer',
-                  Icons.monetization_on,
-                  onClick: () => _showContactsList(context),
-                ),
-                _FeatureItem(
-                  'Transaction Feed',
-                  Icons.description,
-                  onClick: () => _showTransactionsList(context),
-                ),
-                _FeatureItem(
-                  'Transaction Feed',
-                  Icons.person_outlined,
-                  onClick: () => _showChangeName(context),
-                ),
-              ],
+          SingleChildScrollView(
+            child: Container(
+              height: 120,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  _FeatureItem(
+                    'Transfer',
+                    Icons.monetization_on,
+                    onClick: () => _showContactsList(context),
+                  ),
+                  _FeatureItem(
+                    'Transaction Feed',
+                    Icons.description,
+                    onClick: () => _showTransactionsList(context),
+                  ),
+                  _FeatureItem(
+                    'Transaction Feed',
+                    Icons.person_outlined,
+                    onClick: () => _showChangeName(context),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
