@@ -1,3 +1,4 @@
+import 'package:bytebank/components/container.dart';
 import 'package:bytebank/components/progress.dart';
 import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
@@ -5,15 +6,22 @@ import 'package:bytebank/screens/contact_form.dart';
 import 'package:bytebank/screens/transaction_form.dart';
 import 'package:flutter/material.dart';
 
-class ContactsList extends StatefulWidget {
-  const ContactsList({Key? key}) : super(key: key);
+class ContactsListContainer extends BlocContainer {
+  @override
+  Widget build(BuildContext context) {
+    return ContactsList();
+  }
+}
 
+class ContactsList extends StatefulWidget {
+  ContactsList({Key? key}) : super(key: key);
+
+  final ContactDao _dao = ContactDao();
   @override
   State<ContactsList> createState() => _ContactsListState();
 }
 
 class _ContactsListState extends State<ContactsList> {
-  final ContactDao _dao = ContactDao();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +30,7 @@ class _ContactsListState extends State<ContactsList> {
       ),
       //indicando que o future vai receber uma <list<Contact>> (generics)
       body: FutureBuilder<List<Contact>>(
-        future: _dao.findAll(), //faz busca dos contacts
+        future: widget._dao.findAll(), //faz busca dos contacts
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -61,21 +69,31 @@ class _ContactsListState extends State<ContactsList> {
           return const Text('Unknown Error');
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => const ContactForm(),
-                ),
-              )
-              .then(
-                (value) => setState(() {}),
-              );
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: buildAddContactButton(context),
     );
+  }
+
+  FloatingActionButton buildAddContactButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.of(context)
+            .push(
+              MaterialPageRoute(
+                builder: (context) => const ContactForm(),
+              ),
+            )
+            .then(
+              (value) => update(),
+            );
+      },
+      child: const Icon(Icons.add),
+    );
+  }
+
+//nojento, pois não temos estado e não estamos usando o Bloc e esta horrivel
+//melhoraremos
+  update() {
+    setState(() {});
   }
 }
 
