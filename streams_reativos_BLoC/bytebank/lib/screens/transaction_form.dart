@@ -34,13 +34,43 @@ class SentState extends TransactionFormState {
 }
 
 @immutable
-class FatalErrorState extends TransactionFormState {
-  const FatalErrorState();
+class FatalErrorFormState extends TransactionFormState {
+  final String _message;
+  const FatalErrorFormState(this._message);
 }
 
 //Cubit para dizer qual nosso estado
 class TransactionFormCubit extends Cubit<TransactionFormState> {
   TransactionFormCubit() : super(ShowFormState());
+
+  void save(Transaction transactionCreated, String password,
+      BuildContext context) async {
+    emit(SendingState());
+    try {
+      await TransactionWebClient().save(transactionCreated, password);
+      emit(SentState());
+
+      /*showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return SuccessDialog('transaction done');
+          }).then((value) => Navigator.pop(context));*/
+    } on TimeoutException catch (error) {
+      emit(const FatalErrorFormState('timeout submiting transaction'));
+      /*showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog('timeout submiting transaction');
+          });*/
+    } on Exception catch (error) {
+      emit(FatalErrorFormState(error.toString()));
+      /*showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog(error.toString());
+          });*/
+    }
+  }
 }
 
 //Container
@@ -62,8 +92,6 @@ class TransactionFormContainer extends BlocContainer {
 }
 
 class TransactionFormStateless extends StatelessWidget {
-  final TransactionWebClient _webClient = TransactionWebClient();
-
   final Contact _contact;
   TransactionFormStateless(this._contact, {Key? key}) : super(key: key);
 
@@ -77,44 +105,12 @@ class TransactionFormStateless extends StatelessWidget {
         return ProgressView();
       } else if (state is SentState) {
         Navigator.pop(context);
-      } else if (state is FatalErrorState) {
+      } else if (state is FatalErrorFormState) {
         //TODO: tela de erro
       }
       //TODO: tela de erro
       return Text('Error!!!');
     });
-  }
-
-  Future<void> _save(
-    Transaction transactionCreated,
-    String password,
-    BuildContext context,
-  ) async {
-    try {
-      //setState(() => _sending = true);
-
-      await _webClient.save(transactionCreated, password);
-      //setState(() => _sending = false);
-      showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return SuccessDialog('transaction done');
-          }).then((value) => Navigator.pop(context));
-    } on TimeoutException catch (error) {
-      //setState(() => _sending = false);
-      showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return FailureDialog('timeout submiting transaction');
-          });
-    } on Exception catch (error) {
-      //setState(() => _sending = false);
-      showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return FailureDialog(error.toString());
-          });
-    }
   }
 }
 
@@ -180,8 +176,9 @@ class _BasicForm extends StatelessWidget {
                             builder: (contextDialog) {
                               return TransactionAuthDialog(
                                 onConfirm: (String password) {
-                                  //TODO: executar o envio
-                                  //_save(transactionCreated, password, context);
+                                  BlocProvider.of<TransactionFormCubit>(context)
+                                      .save(transactionCreated, password,
+                                          context);
                                 },
                               );
                             });
