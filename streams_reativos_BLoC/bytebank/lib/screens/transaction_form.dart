@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bytebank/components/container.dart';
+import 'package:bytebank/components/error.dart';
 import 'package:bytebank/components/progress.dart';
 import 'package:bytebank/components/response_dialog.dart';
 import 'package:bytebank/components/transaction_auth_dialog.dart';
@@ -48,27 +49,11 @@ class TransactionFormCubit extends Cubit<TransactionFormState> {
     emit(SendingState());
     try {
       await TransactionWebClient().save(transactionCreated, password);
-      emit(SentState());
-
-      /*showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return SuccessDialog('transaction done');
-          }).then((value) => Navigator.pop(context));*/
+      emit(const SentState());
     } on TimeoutException catch (error) {
       emit(const FatalErrorFormState('timeout submiting transaction'));
-      /*showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return FailureDialog('timeout submiting transaction');
-          });*/
     } on Exception catch (error) {
       emit(FatalErrorFormState(error.toString()));
-      /*showDialog(
-          context: context,
-          builder: (contextDialog) {
-            return FailureDialog(error.toString());
-          });*/
     }
   }
 }
@@ -86,7 +71,15 @@ class TransactionFormContainer extends BlocContainer {
       create: (BuildContext context) {
         return TransactionFormCubit();
       },
-      child: TransactionFormStateless(_contact), //widget qye sera build
+      child: BlocListener<TransactionFormCubit, TransactionFormState>(
+          //blocListener escuta as mudanças de estado e antes do builder
+          //fazer a tela ele faz o navigator.pop
+          listener: (BuildContext context, state) {
+            if (state is SentState) {
+              Navigator.pop(context);
+            }
+          },
+          child: TransactionFormStateless(_contact)), //widget que sera build
     );
   }
 }
@@ -101,15 +94,13 @@ class TransactionFormStateless extends StatelessWidget {
         builder: (context, state) {
       if (state is ShowFormState) {
         return _BasicForm(_contact);
-      } else if (state is SendingState) {
-        return ProgressView();
-      } else if (state is SentState) {
-        Navigator.pop(context);
+      } else if (state is SendingState || state is SentState) {
+        //nao pode fazer um navigator.pop dentro de builder! a tela esta sendo criada!
+        return const ProgressView();
       } else if (state is FatalErrorFormState) {
-        //TODO: tela de erro
+        return ErrorView(state._message);
       }
-      //TODO: tela de erro
-      return Text('Error!!!');
+      return ErrorView("Unknown error");
     });
   }
 }
