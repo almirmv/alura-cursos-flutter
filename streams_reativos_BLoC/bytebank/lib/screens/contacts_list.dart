@@ -83,11 +83,8 @@ class ContactsList extends StatelessWidget {
                 return _ContactItem(
                   contact,
                   onClick: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => TransactionForm(contact),
-                      ),
-                    );
+                    //usa metodo push do container.dart
+                    push(context, TransactionFormContainer(contact));
                   },
                 );
               },
